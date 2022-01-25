@@ -1,6 +1,7 @@
 <template>
   <div class="input-field">
     <v-text-field
+      v-model="data"
       dense
       :placeholder="placeholder"
       :label="label"
@@ -8,6 +9,7 @@
       clearable
       hide-details
       color="black"
+      @blur="sendData"
     ></v-text-field>
   </div>
 </template>
@@ -16,6 +18,10 @@
 export default {
   name: 'TextField',
   props: {
+    dataname: {
+      type: String,
+      required: true,
+    },
     label: {
       type: String,
       required: true,
@@ -23,6 +29,19 @@ export default {
     placeholder: {
       type: String,
       required: true,
+    },
+  },
+  data() {
+    return {
+      data: '',
+    }
+  },
+  methods: {
+    sendData() {
+      const toEmit = {}
+      toEmit.dataname = this.dataname
+      toEmit.data = this.data
+      this.$emit('change', toEmit)
     },
   },
 }

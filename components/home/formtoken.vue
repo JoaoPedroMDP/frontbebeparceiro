@@ -2,8 +2,13 @@
   <v-container class="d-flex justify-center">
     <v-sheet rounded class="d-flex justify-center flex-column token-modal">
       <img class="bebeparceiro-logo" src="~assets/bebeparceiro1.png" />
-      <TextField label="Código" placeholder="" />
-      <ConfirmButton class="send-button" label="Enviar" />
+      <TextField
+        label="Código"
+        placeholder=""
+        dataname="formToken"
+        @change="updateData"
+      />
+      <ConfirmButton class="send-button" label="Enviar" @click="confirmToken" />
     </v-sheet>
   </v-container>
 </template>
@@ -14,6 +19,19 @@ import ConfirmButton from '../inputs/confirmbutton.vue'
 export default {
   name: 'FormToken',
   components: { TextField, ConfirmButton },
+  data() {
+    return {
+      formToken: '',
+    }
+  },
+  methods: {
+    updateData(eventData) {
+      this.formToken = eventData.data
+    },
+    confirmToken() {
+      console.log(this.formToken)
+    },
+  },
 }
 </script>
 

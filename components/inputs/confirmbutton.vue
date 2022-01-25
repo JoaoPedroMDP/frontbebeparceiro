@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="custom-button" small outlined>{{ label }}</v-btn>
+  <v-btn class="custom-button" small outlined @click="click">{{ label }}</v-btn>
 </template>
 
 <script>
@@ -9,6 +9,11 @@ export default {
     label: {
       type: String,
       required: true,
+    },
+  },
+  methods: {
+    click() {
+      this.$emit('click')
     },
   },
 }
