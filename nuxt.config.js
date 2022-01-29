@@ -15,7 +15,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['~assets/variables.css', 'assets/global.css'],
+  css: ['~assets/variables.css', '~assets/global.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [],
@@ -47,6 +47,7 @@ export default {
 
   proxy: {
     '/api/': { target: 'http://localhost:8000' },
+    '/storage/': { target: 'http://localhost:8000' },
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
