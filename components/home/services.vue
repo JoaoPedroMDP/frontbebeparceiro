@@ -3,13 +3,13 @@
     <div class="container d-flex justify-center flex-column align-center">
       <h1>Serviços</h1>
       <div
-        class="service d-flex flex-column align-center"
         v-for="service in services"
-        :key="service.name"
+        :key="service.id"
+        class="service d-flex flex-column align-center"
       >
-        <v-row class="d-flex justify-center align-center">
+        <v-row class="d-flex flex-column justify-center align-center">
           <img
-            class="service-image col-md-6"
+            class="service-image"
             :src="getImagePath(service.image)"
           />
           <h2 class="service-title">{{ service.name }}</h2>
@@ -22,10 +22,10 @@
 
 <script>
 export default {
-  name: 'HomeServices',
+  name: 'Services',
   props: {
     services: {
-      type: Object,
+      type: Array,
       required: true,
     },
   },
@@ -50,6 +50,8 @@ export default {
 .service-image {
   max-width: 300px;
   max-height: 200px;
+  width: auto;
+  height: auto;
 }
 
 .service-title {

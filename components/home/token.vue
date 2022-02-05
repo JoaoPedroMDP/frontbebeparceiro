@@ -16,8 +16,9 @@
 <script>
 import TextField from '../inputs/textfield.vue'
 import ConfirmButton from '../inputs/confirmbutton.vue'
+
 export default {
-  name: 'FormToken',
+  name: 'Token',
   components: { TextField, ConfirmButton },
   data() {
     return {
@@ -28,8 +29,11 @@ export default {
     updateData(eventData) {
       this.formToken = eventData.data
     },
-    confirmToken() {
-      console.log(this.formToken)
+    async confirmToken() {
+      const response = await this.$axios
+        .get('/check/' + this.formToken)
+        .then((response) => {})
+      console.log(response)
     },
   },
 }
