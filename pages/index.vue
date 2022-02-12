@@ -1,17 +1,17 @@
 <template>
   <v-app class="d-flex justify-center">
-    <Token @approval="sendToFormPage" />
+    <TokenModal @approval="sendToFormPage" />
     <Services v-if="services.length > 0" :services="services" />
   </v-app>
 </template>
 
 <script>
-import Token from '../components/home/token.vue'
+import TokenModal from '../components/home/tokenModal.vue'
 import Services from '../components/home/services.vue'
 
 export default {
   name: 'IndexPage',
-  components: { Token, Services },
+  components: { TokenModal, Services },
   asyncData(context) {
     return context.app.$axios
       .get('/service')

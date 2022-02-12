@@ -1,5 +1,6 @@
 <template>
   <v-container class="d-flex justify-center">
+    <notifications position="top center" />
     <v-sheet rounded class="d-flex justify-center flex-column token-modal">
       <img class="bebeparceiro-logo" src="~assets/bebeparceiro1.png" />
       <v-form v-model="valid">
@@ -27,7 +28,7 @@ import TextField from '../inputs/textfield.vue'
 import ConfirmButton from '../inputs/confirmbutton.vue'
 
 export default {
-  name: 'Token',
+  name: 'TokenModal',
   components: { TextField, ConfirmButton },
   data() {
     return {
@@ -44,15 +45,17 @@ export default {
       this.formToken = eventData.data
     },
     confirmToken() {
-      const responses = this.$axios
+      this.$axios
         .$get('/token/check/' + this.formToken)
-        .then((response) => {
-          console.log('response')
+        .then(() => {
+          this.$emit('approval')
         })
-        .catch((response) => {
-          console.log(response)
+        .catch((error) => {
+          this.$notify({
+            type: 'error',
+            title: error.response.data.message,
+          })
         })
-      console.log(responses)
     },
   },
 }
