@@ -2,12 +2,14 @@
   <div class="input-field">
     <v-text-field
       v-model="data"
+      v-maska="mask"
       dense
       :placeholder="placeholder"
       :label="label"
+      :rules="inputrules"
       outlined
       clearable
-      hide-details
+      hide-details="auto"
       color="black"
       @blur="sendData"
     ></v-text-field>
@@ -15,8 +17,11 @@
 </template>
 
 <script>
+import { maska } from 'maska'
+
 export default {
   name: 'TextField',
+  directives: { maska },
   props: {
     dataname: {
       type: String,
@@ -29,6 +34,16 @@ export default {
     placeholder: {
       type: String,
       required: true,
+    },
+    mask: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    inputrules: {
+      type: Array,
+      required: false,
+      default: () => {},
     },
   },
   data() {
@@ -56,4 +71,11 @@ export default {
   border-color: black;
   border-width: 2px;
 }
+
+.input-field >>> .v-input__control >>> .v-text-field__details {
+  background-color: blue;
+}
+/* .v-text-field.v-text-field--enclosed .v-text-field__details {
+  background-color: black;
+} */
 </style>

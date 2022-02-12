@@ -1,5 +1,12 @@
 <template>
-  <v-btn class="custom-button" small outlined @click="click">{{ label }}</v-btn>
+  <v-btn
+    class="custom-button"
+    :disabled="!enabled"
+    small
+    outlined
+    @click="click"
+    >{{ label }}</v-btn
+  >
 </template>
 
 <script>
@@ -8,6 +15,10 @@ export default {
   props: {
     label: {
       type: String,
+      required: true,
+    },
+    enabled: {
+      type: Boolean,
       required: true,
     },
   },

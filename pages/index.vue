@@ -1,7 +1,7 @@
 <template>
   <v-app class="d-flex justify-center">
     <Token @approval="sendToFormPage" />
-    <Services :services="services" />
+    <Services v-if="services.length > 0" :services="services" />
   </v-app>
 </template>
 
@@ -16,6 +16,12 @@ export default {
     return context.app.$axios
       .get('/service')
       .then((res) => ({ services: res.data.data }))
+      .catch(() => ({ services: [] }))
+  },
+  data() {
+    return {
+      services: [],
+    }
   },
   methods: {
     sendToFormPage() {
