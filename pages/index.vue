@@ -24,8 +24,13 @@ export default {
     }
   },
   methods: {
-    sendToFormPage() {
-      this.$router.push('/formulario')
+    sendToFormPage(token) {
+      this.$router.push({
+        name: 'formulario',
+        params: {
+          token,
+        },
+      })
     },
   },
 }

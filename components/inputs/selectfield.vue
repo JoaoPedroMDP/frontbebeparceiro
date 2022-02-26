@@ -1,42 +1,34 @@
 <template>
-  <v-text-field
+  <v-select
     v-model="data"
-    v-maska="mask"
-    dense
-    :placeholder="placeholder"
+    :items="items"
     :label="label"
     :rules="rules"
-    :type="!hideContent ? 'text' : 'password'"
+    item-text="label"
+    item-value="value"
     outlined
     clearable
-    hide-details="auto"
     color="black"
-    @blur="sendData"
+    hide-details
+    dense
     class="shadowy rounded"
     :style="css"
-  ></v-text-field>
+  ></v-select>
 </template>
 
 <script>
-import { maska } from 'maska'
-
 export default {
-  name: 'TextField',
-  directives: { maska },
+  name: 'SelectField',
   props: {
-    dataname: {
-      type: String,
+    items: {
+      type: Array,
       required: true,
     },
     label: {
       type: String,
       required: true,
     },
-    placeholder: {
-      type: String,
-      required: true,
-    },
-    mask: {
+    dataname: {
       type: String,
       required: false,
       default: '',
@@ -45,11 +37,6 @@ export default {
       type: Array,
       required: false,
       default: () => {},
-    },
-    hideContent: {
-      type: Boolean,
-      required: false,
-      default: false,
     },
     css: {
       type: String,
@@ -63,7 +50,7 @@ export default {
     }
   },
   methods: {
-    sendData() {
+    updateData() {
       const toEmit = {}
       toEmit.dataname = this.dataname
       toEmit.data = this.data

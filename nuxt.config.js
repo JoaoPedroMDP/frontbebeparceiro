@@ -18,7 +18,10 @@ export default {
   css: ['~assets/variables.css', '~assets/global.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '~/plugins/notifications-client', ssr: false }],
+  plugins: [
+    { src: '~/plugins/notifications-client', ssr: false },
+    { src: '~/plugins/vuex.js' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

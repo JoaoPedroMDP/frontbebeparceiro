@@ -45,17 +45,19 @@ export default {
       this.formToken = eventData.data
     },
     confirmToken() {
-      this.$axios
-        .$get('/token/check/' + this.formToken)
-        .then(() => {
-          this.$emit('approval')
-        })
-        .catch((error) => {
-          this.$notify({
-            type: 'error',
-            title: error.response.data.message,
-          })
-        })
+      // TODO: TROCAR ANTES DE IR PRA PRODUÇÃO
+      // this.$axios
+      //   .$get('/token/check/' + this.formToken)
+      //   .then(() => {
+      //     this.$emit('approval', this.formToken)
+      //   })
+      //   .catch((error) => {
+      //     this.$notify({
+      //       type: 'error',
+      //       title: error.response.data.message,
+      //     })
+      //   })
+      this.$emit('approval', this.formToken)
     },
   },
 }
