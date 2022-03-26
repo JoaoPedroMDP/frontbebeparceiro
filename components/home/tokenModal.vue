@@ -26,10 +26,12 @@
 <script>
 import TextField from '../inputs/textfield.vue'
 import ConfirmButton from '../inputs/confirmbutton.vue'
+import handleErrorMixin from '../../mixins/handleErrorMixin'
 
 export default {
   name: 'TokenModal',
   components: { TextField, ConfirmButton },
+  mixins: [handleErrorMixin],
   data() {
     return {
       valid: false,
@@ -52,10 +54,7 @@ export default {
       //     this.$emit('approval', this.formToken)
       //   })
       //   .catch((error) => {
-      //     this.$notify({
-      //       type: 'error',
-      //       title: error.response.data.message,
-      //     })
+      //     this.handleError(error)
       //   })
       this.$emit('approval', this.formToken)
     },

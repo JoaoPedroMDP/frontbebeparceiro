@@ -1,5 +1,6 @@
 <template>
   <v-app class="container d-flex justify-center">
+    <notifications position="top center" />
     <h1>Coleta de dados</h1>
     <v-form>
       <v-expansion-panels popout multiple>
@@ -44,10 +45,12 @@ import TextField from '../components/inputs/textfield.vue'
 import ConfirmButton from '../components/inputs/confirmbutton.vue'
 import SelectField from '../components/inputs/selectfield.vue'
 import CheckField from '../components/inputs/checkfield.vue'
+import handleErrorMixin from '../mixins/handleErrorMixin'
 
 export default {
   name: 'FormularioGeral',
   components: { TextField, ConfirmButton, SelectField, CheckField },
+  mixins: [handleErrorMixin],
   data() {
     return {
       formValues: {
@@ -114,11 +117,19 @@ export default {
       }
     },
     submitForm() {
-      const response = this.$axios
-        .post('/benefited/' + this.formToken,
+      this.$axios
+        .$post('/benefited/' + this.formToken,
           // this.formValues
           {"personal":{"name":"João Pedro","surname":"Martins de Paula","childCount":"735","birthday":"13/03/2000","maritalStatus":"married","familiarIncome":"123","email":"asd@asd","telephone":"(12) 31231-2312","password":"asdasd","passwordConfirmation":"asdasd","socialBenefits":["cadastrodeemprego","minhacasaminhavida","cartaoalimentacao"],"childAlreadyBorn":true,"hasDisablement":true},"address":{"cep":"81070160","street":"Joao","number":"123","complement":"asd","city":"asd","neighborhood":"asd"},"pregnancy":{"fetusSex":"","riskyPregnancy":"","name":"","surname":"","birthdayForecast":"","weightForecast":""},"child":{"name":"asd","surname":"asd","sex":"male","birthday":"12/12/3123", "weight":"5,2"}}
         )
+        .then((response) => {
+          this.$router.push({
+            name: 'waitApproval'
+          })
+        })
+        .catch((error) => {
+          this.handleError(error)
+        })
     },
   },
 }
