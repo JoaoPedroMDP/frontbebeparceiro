@@ -8,12 +8,23 @@
     item-value="value"
     outlined
     clearable
+    :multiple="multiple"
     color="black"
     hide-details
     dense
+    @blur="sendData"
     class="shadowy rounded"
     :style="css"
-  ></v-select>
+  >
+    <template v-if="multiple" v-slot:selection="{ item, index }">
+      <v-chip class="chip" v-if="index < 2">
+        <span>{{ item.label }}</span>
+      </v-chip>
+      <span v-if="index === 2" class="grey--text text-caption">
+        (+ outros {{ data.length - 2 }})
+      </span>
+    </template>
+  </v-select>
 </template>
 
 <script>
@@ -43,6 +54,11 @@ export default {
       required: false,
       default: '',
     },
+    multiple: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -50,7 +66,7 @@ export default {
     }
   },
   methods: {
-    updateData() {
+    sendData() {
       const toEmit = {}
       toEmit.dataname = this.dataname
       toEmit.data = this.data
@@ -64,5 +80,9 @@ export default {
 .v-text-field--outlined >>> fieldset {
   border-color: black;
   border-width: 1px;
+}
+
+.chip {
+  margin: 5px 2px 0 !important;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <v-app class="d-flex justify-center">
-    <TokenModal @approval="sendToFormPage" />
+    <TokenModal @approval="sendToFirstFormPage" />
     <Services v-if="services.length > 0" :services="services" />
   </v-app>
 </template>
@@ -24,9 +24,9 @@ export default {
     }
   },
   methods: {
-    sendToFormPage(token) {
+    sendToFirstFormPage(token) {
       this.$router.push({
-        name: 'formulario',
+        name: 'formularioGeral',
         params: {
           token,
         },
