@@ -3,7 +3,7 @@
     <notifications position="top center" />
     <h1>Coleta de dados</h1>
     <v-form>
-      <v-expansion-panels popout multiple>
+      <v-expansion-panels popout>
         <v-expansion-panel
           v-for="(section, sectionName) in getForm"
           :key="section.header"
@@ -16,8 +16,8 @@
           <v-expansion-panel-content>
             <div class="personal-data d-flex flex-wrap justify-space-between">
               <component
-                v-for="field in section.fields"
                 :is="field.type"
+                v-for="field in section.fields"
                 :key="field.name"
                 v-bind="field.options"
                 class="field flex-grow-1 flex-shrink-1"
@@ -29,9 +29,9 @@
       </v-expansion-panels>
       <div class="advance-button d-flex flex-column">
         <v-btn
-          @click="submitForm"
           color="var(--light-green)"
           class="align-self-end shadowy rounded"
+          @click="submitForm"
           >Continuar</v-btn
         >
       </div>
@@ -77,10 +77,10 @@ export default {
           neighborhood: '',
         },
         pregnancy: {
-          sex: '',
-          riskyPregnancy: '',
           name: '',
           surname: '',
+          sex: '',
+          riskyPregnancy: '',
           birthdayForecast: '',
           weight: '',
         },
@@ -108,7 +108,7 @@ export default {
       ) {
         return true
       } else if (
-        sectionName === 'baby' &&
+        sectionName === 'child' &&
         !this.formValues.personal.childAlreadyBorn
       ) {
         return true
@@ -118,13 +118,57 @@ export default {
     },
     submitForm() {
       this.$axios
-        .$post('/benefited/' + this.formToken,
-          // this.formValues
-          {"personal":{"name":"João Pedro","surname":"Martins de Paula","childCount":"735","birthday":"13/03/2000","maritalStatus":"married","familiarIncome":"123","email":"asd@asd","telephone":"(12) 31231-2312","password":"asdasd","passwordConfirmation":"asdasd","socialBenefits":["cadastrodeemprego","minhacasaminhavida","cartaoalimentacao"],"childAlreadyBorn":true,"hasDisablement":true},"address":{"cep":"81070160","street":"Joao","number":"123","complement":"asd","city":"asd","neighborhood":"asd"},"pregnancy":{"fetusSex":"","riskyPregnancy":"","name":"","surname":"","birthdayForecast":"","weightForecast":""},"child":{"name":"asd","surname":"asd","sex":"male","birthday":"12/12/3123", "weight":"5,2"}}
+        .$post(
+          '/benefited/' + this.formToken,
+          this.formValues
+          // {
+          //   personal: {
+          //     name: 'João Pedro',
+          //     surname: 'Martins de Paula',
+          //     childCount: '735',
+          //     birthday: '13/03/2000',
+          //     maritalStatus: 'married',
+          //     familiarIncome: '123',
+          //     email: 'asd@asd',
+          //     telephone: '(12) 31231-2312',
+          //     password: 'asdasd',
+          //     passwordConfirmation: 'asdasd',
+          //     socialBenefits: [
+          //       'cadastrodeemprego',
+          //       'minhacasaminhavida',
+          //       'cartaoalimentacao',
+          //     ],
+          //     childAlreadyBorn: true,
+          //     hasDisablement: true,
+          //   },
+          //   address: {
+          //     cep: '81070160',
+          //     street: 'Joao',
+          //     number: '123',
+          //     complement: 'asd',
+          //     city: 'asd',
+          //     neighborhood: 'asd',
+          //   },
+          //   pregnancy: {
+          //     fetusSex: '',
+          //     riskyPregnancy: '',
+          //     name: '',
+          //     surname: '',
+          //     birthdayForecast: '',
+          //     weightForecast: '',
+          //   },
+          //   baby: {
+          //     name: 'asd',
+          //     surname: 'asd',
+          //     sex: 'male',
+          //     birthday: '12/12/3123',
+          //     weight: '5,2',
+          //   },
+          // }
         )
         .then((response) => {
           this.$router.push({
-            name: 'waitApproval'
+            name: 'waitApproval',
           })
         })
         .catch((error) => {
