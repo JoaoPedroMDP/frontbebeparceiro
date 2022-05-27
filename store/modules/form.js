@@ -1,176 +1,69 @@
 /* TODO: a ideia é pegar de algum outro lugar, assim está feio */
-const maritalStatuses = [
-  {
-    value: 'single',
-    label: 'Solteira',
-  },
-  {
-    value: 'married',
-    label: 'Casada',
-  },
-  {
-    value: 'divorced',
-    label: 'Divorciada',
-  },
-  {
-    value: 'widow',
-    label: 'Viúva',
-  },
-]
+import fieldRules from '../../definitions/fieldRules.js'
+import enumerables from '../../definitions/enumerables.js'
 
-const socialBenefits = [
-  {
-    value: 'minhacasaminhavida',
-    label: 'Minha Casa Minha Vida',
-  },
-  {
-    value: 'cadastrodeemprego',
-    label: 'Cadastro de Emprego',
-  },
-  {
-    value: 'cartaoalimentacao',
-    label: 'Cartão Alimentação',
-  },
-  {
-    value: 'leitedascriancas',
-    label: 'Leite das Crianças',
-  },
-  {
-    value: 'aposentadoria',
-    label: 'Aposentadoria',
-  },
-  {
-    value: 'bolsafamilia',
-    label: 'Bolsa Família',
-  },
-]
-
-const sexes = [
-  {
-    value: 'male',
-    label: 'Masculino',
-  },
-  {
-    value: 'female',
-    label: 'Feminino',
-  },
-]
-
-const fetusSexes = [
-  ...sexes,
-  {
-    value: 'unknown',
-    label: 'Não sei ainda',
-  },
-]
-
-const fieldRules = {
-  alphaSpace: () => {
-    return [
-      (v) => !!v,
-      (v) =>
-        (!!v && v.match('^[a-zA-Zà-ù ]+$') != null) ||
-        'Apenas letras e espaços',
-    ]
-  },
-  numeric: () => {
-    return [(v) => !!v, (v) => !!v && v.match('^[0-9]+$') != null]
-  },
-  alphaNumeric: () => {
-    return [
-      (v) => !!v,
-      (v) => !!v && v.match('^[a-zA-Z0-9]+$') != null
-    ]
-  },
-  text: () => {
-    return [
-      (v) => !!v,
-      (v) => !!v && v.match('^[a-zA-Z0-9.,-]+$') != null
-    ]
-  },
-  date: () => {
-    return [(v) => !!v]
-  },
-  email: () => {
-    return [
-      (v) => !!v,
-      (v) =>
-        !!v &&
-        v.match(
-          "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-        ) != null,
-    ]
-  },
-  float: () => {
-    return [(v) => !!v, (v) => !!v && v.match('^[0-9,.]+$') != null]
-  },
-  password: () => {
-    return [(v) => !!v, (v) => !!v && v.match('^[a-zA-Z0-9]+$') != null]
-  },
-}
+const maritalStatuses = enumerables.maritalStatuses
+const socialBenefits = enumerables.socialBenefits
+const fetusSexes = enumerables.fetusSexes
+const sexes = enumerables.sexes
+const familiarIncomes = enumerables.familiarIncomes
 
 const state = () => ({
   form: {
     personal: {
       header: 'Dados pessoais',
-      disabler: () => false,
       fields: [
         {
           name: 'name',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'name',
             mandatory: true,
             label: 'Nome',
             placeholder: '',
-            rules: fieldRules.alphaSpace(),
+            rules: fieldRules.alphaSpace(true),
           },
         },
         {
           name: 'surname',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'surname',
             mandatory: true,
             label: 'Sobrenome',
             placeholder: '',
-            rules: fieldRules.alphaSpace(),
+            rules: fieldRules.alphaSpace(true),
           },
         },
         {
           name: 'childCount',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'childCount',
             mandatory: true,
             label: 'Nº de filhos',
             placeholder: '',
-            rules: fieldRules.numeric(),
+            rules: fieldRules.numeric(true),
             css: 'max-width: 135px;',
-            mask: "##"
+            mask: '##',
           },
         },
         {
           name: 'birthday',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'birthday',
             mandatory: true,
             mask: '##/##/####',
             label: 'Data de nascimento',
             placeholder: '',
-            rules: fieldRules.date(),
+            rules: fieldRules.date(true),
             css: 'max-width: 135px;',
           },
         },
         {
           name: 'maritalStatus',
           type: 'SelectField',
-          page: 1,
           options: {
             placeholder: '',
             dataname: 'maritalStatus',
@@ -182,33 +75,30 @@ const state = () => ({
         },
         {
           name: 'familiarIncome',
-          type: 'TextField',
-          page: 1,
+          type: 'SelectField',
           options: {
-            dataname: 'familiarIncome',
-            mandatory: true,
-            label: 'Renda familiar',
             placeholder: '',
-            rules: fieldRules.float(),
+            dataname: 'familiarIncome',
+            label: 'Renda familiar',
+            mandatory: true,
+            items: familiarIncomes,
             css: 'max-width: 135px;',
           },
         },
         {
           name: 'email',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'email',
-            mandatory: true,
+            mandatory: false,
             label: 'E-mail',
             placeholder: '',
-            rules: fieldRules.email(),
+            rules: fieldRules.email(false),
           },
         },
         {
           name: 'telephone',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'telephone',
             mandatory: true,
@@ -220,33 +110,30 @@ const state = () => ({
         {
           name: 'password',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'password',
             mandatory: true,
             label: 'Senha',
             placeholder: '',
-            rules: fieldRules.password(),
+            rules: fieldRules.password(true),
             hideContent: true,
           },
         },
         {
           name: 'passwordConfirmation',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'passwordConfirmation',
             mandatory: true,
             label: 'Repita a senha',
             placeholder: '',
-            rules: [(v) => !!v],
+            rules: fieldRules.mandatory(),
             hideContent: true,
           },
         },
         {
           name: 'socialBenefits',
           type: 'SelectField',
-          page: 1,
           options: {
             placeholder: '',
             dataname: 'socialBenefits',
@@ -260,7 +147,6 @@ const state = () => ({
         {
           name: 'hasDisablement',
           type: 'CheckField',
-          page: 1,
           options: {
             placeholder: '',
             dataname: 'hasDisablement',
@@ -271,7 +157,6 @@ const state = () => ({
         {
           name: 'childAlreadyBorn',
           type: 'CheckField',
-          page: 1,
           options: {
             dataname: 'childAlreadyBorn',
             label: 'A criança que irá receber ajuda já nasceu?',
@@ -282,12 +167,10 @@ const state = () => ({
     },
     address: {
       header: 'Dados de endereço',
-      disabler: () => false,
       fields: [
         {
           name: 'cep',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'cep',
             mandatory: true,
@@ -299,25 +182,23 @@ const state = () => ({
         {
           name: 'street',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'street',
             mandatory: true,
             label: 'Rua',
             placeholder: '',
-            rules: fieldRules.alphaSpace(),
+            rules: fieldRules.alphaSpace(true),
           },
         },
         {
           name: 'number',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'number',
             mandatory: true,
             label: 'Número',
             placeholder: '',
-            rules: fieldRules.numeric(),
+            rules: fieldRules.numeric(true),
             mask: '#####',
             css: 'max-width: 135px;',
           },
@@ -325,85 +206,56 @@ const state = () => ({
         {
           name: 'city',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'city',
             mandatory: true,
             label: 'Cidade',
             placeholder: '',
-            rules: fieldRules.alphaSpace(),
+            rules: fieldRules.alphaSpace(true),
             css: 'max-width: 135px;',
           },
         },
         {
           name: 'complement',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'complement',
-            mandatory: true,
+            mandatory: false,
             label: 'Complemento',
             placeholder: '',
-            rules: fieldRules.text(),
+            rules: fieldRules.text(false),
           },
         },
         {
           name: 'neighborhood',
           type: 'TextField',
-          page: 1,
           options: {
             dataname: 'neighborhood',
             mandatory: true,
             label: 'Bairro',
             placeholder: '',
-            rules: fieldRules.alphaSpace(),
+            rules: fieldRules.alphaSpace(true),
           },
         },
       ],
     },
     pregnancy: {
       header: 'Gestação',
-      disabler: () => !isPregnant,
       fields: [
-        {
-          name: 'riskyPregnancy',
-          type: 'CheckField',
-          page: 2,
-          options: {
-            placeholder: '',
-            dataname: 'riskyPregnancy',
-            label: 'Gravidez de risco?',
-            mandatory: true,
-          },
-        },
         {
           name: 'name',
           type: 'TextField',
-          page: 2,
           options: {
             placeholder: '',
             dataname: 'name',
             label: 'Nome',
             mandatory: true,
-            rules: fieldRules.alphaSpace(),
-          },
-        },
-        {
-          name: 'surname',
-          type: 'TextField',
-          page: 2,
-          options: {
-            placeholder: '',
-            dataname: 'surname',
-            label: 'Sobrenome',
-            mandatory: true,
-            rules: fieldRules.alphaSpace(),
+            rules: fieldRules.alphaSpace(true),
           },
         },
         {
           name: 'birthdayForecast',
           type: 'TextField',
-          page: 2,
           options: {
             placeholder: '',
             dataname: 'birthdayForecast',
@@ -415,19 +267,17 @@ const state = () => ({
         {
           name: 'weight',
           type: 'TextField',
-          page: 2,
           options: {
             placeholder: '',
             dataname: 'weight',
             label: 'Previsão de peso',
-            mandatory: true,
-            rules: fieldRules.float(),
+            mandatory: false,
+            rules: fieldRules.float(false),
           },
         },
         {
           name: 'fetusSex',
           type: 'SelectField',
-          page: 2,
           options: {
             placeholder: '',
             dataname: 'fetusSex',
@@ -437,40 +287,46 @@ const state = () => ({
             css: 'max-width: 135px;',
           },
         },
+        {
+          name: 'riskyPregnancy',
+          type: 'CheckField',
+          options: {
+            placeholder: '',
+            dataname: 'riskyPregnancy',
+            label: 'Gravidez de risco?',
+            mandatory: true,
+          },
+        },
       ],
     },
     child: {
       header: 'Bebê',
-      disabler: () => isPregnant,
       fields: [
         {
           name: 'name',
           type: 'TextField',
-          page: 2,
           options: {
             placeholder: '',
             dataname: 'name',
             label: 'Nome',
             mandatory: true,
-            rules: fieldRules.alphaSpace(),
+            rules: fieldRules.alphaSpace(true),
           },
         },
         {
           name: 'surname',
           type: 'TextField',
-          page: 2,
           options: {
             placeholder: '',
             dataname: 'surname',
             label: 'Sobrenome',
             mandatory: true,
-            rules: fieldRules.alphaSpace(),
+            rules: fieldRules.alphaSpace(true),
           },
         },
         {
           name: 'sex',
           type: 'SelectField',
-          page: 2,
           options: {
             placeholder: '',
             dataname: 'sex',
@@ -483,7 +339,6 @@ const state = () => ({
         {
           name: 'birthday',
           type: 'TextField',
-          page: 2,
           options: {
             placeholder: '',
             dataname: 'birthday',
@@ -496,13 +351,12 @@ const state = () => ({
         {
           name: 'weight',
           type: 'TextField',
-          page: 2,
           options: {
             placeholder: '',
             dataname: 'weight',
             label: 'Peso',
-            mandatory: true,
-            rules: fieldRules.float(),
+            mandatory: false,
+            rules: fieldRules.float(false),
           },
         },
       ],
@@ -527,7 +381,7 @@ const getters = {
 const actions = {
   getFormField(state, data) {
     return state.state.formValues[data.section][data.name]
-  }
+  },
 }
 
 export default {

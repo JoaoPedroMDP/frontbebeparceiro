@@ -51,6 +51,7 @@ export default {
   name: 'FormularioGeral',
   components: { TextField, ConfirmButton, SelectField, CheckField },
   mixins: [handleErrorMixin],
+  layout: 'blank',
   data() {
     return {
       formValues: {

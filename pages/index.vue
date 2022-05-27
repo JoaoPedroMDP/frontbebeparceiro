@@ -12,6 +12,7 @@ import Services from '../components/home/services.vue'
 export default {
   name: 'IndexPage',
   components: { TokenModal, Services },
+  layout: 'blank',
   asyncData(context) {
     return context.app.$axios
       .get('/service')
