@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'frontbebeparceiro',
+    title: 'Bebê Parceiro',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -21,6 +21,7 @@ export default {
   plugins: [
     { src: '~/plugins/notifications-client', ssr: false },
     { src: '~/plugins/vuex.js' },
+    { src: '~/plugins/vue-gate.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -39,6 +40,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    // https://go.nuxtjs.dev/auth
+    '@nuxtjs/auth',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -62,4 +65,30 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  auth: {
+    rewriteRedirects: true,
+    redirects: {
+      login: 'login',
+      logout: 'login',
+      callback: 'login',
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: 'login',
+            method: 'post',
+            propertyName: 'data.token',
+          },
+          logout: false,
+          user: {
+            url: 'user',
+            method: 'get',
+            propertyName: 'data.user',
+          },
+        },
+      },
+    },
+  },
 }
